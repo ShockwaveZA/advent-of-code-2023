@@ -55,8 +55,7 @@ def get_next_direction(direction: Direction, character: str) -> list[Direction]:
 
     return [direction]
 
-def is_used_mirror(used_mirrors: list[tuple[tuple, list[Direction]]], input: list[str], coordinates: tuple, direction: Direction) -> bool:
-    x, y = coordinates
+def is_used_mirror(used_mirrors: list[tuple[tuple, list[Direction]]], coordinates: tuple, direction: Direction) -> bool:
     for mirror_coordinates, directions in used_mirrors:
         if mirror_coordinates != coordinates:
             continue
@@ -66,11 +65,9 @@ def is_used_mirror(used_mirrors: list[tuple[tuple, list[Direction]]], input: lis
 
         # coord found but direction not found - add to used list
         directions.append(direction)
-        # directions.append(get_next_direction(direction, input[y][x])[0])
         return False
 
     # not found - add to used list
-    # used_mirrors.append((coordinates, [direction, get_next_direction(direction, input[y][x])[0]]))
     used_mirrors.append((coordinates, [direction]))
     return False
 
@@ -100,7 +97,7 @@ while iterators:
             directions.pop(i)
             continue
 
-        if input[y][x] in '/\\' and is_used_mirror(used_mirrors, input, iterators[i], direction):
+        if input[y][x] in '/\\' and is_used_mirror(used_mirrors, iterators[i], direction):
             iterators.pop(i)
             directions.pop(i)
             continue
@@ -127,7 +124,6 @@ while iterators:
 
 total: int = 0
 for line in visit_map:
-    # print(line)
     for char in line:
         if char == '#':
             total += 1
